@@ -12,14 +12,6 @@ import java.util.stream.Collectors;
 
 @Repository
 public class BlockDaoJDBC implements BlockDao {
-
-    JdbcTemplate jdbcTemplate;
-
-    @Autowired
-    public BlockDaoJDBC(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
-
     private static final String FIND_BY_HEIGHT_QUERY = "select height, time, speedrate from block_series where height = ?";
     private static final String FIND_TOP_QUERY = "select top ? height, time, speedrate from block_series order by height desc";
     private static final String FIND_LAST_QUERY = "select height, time, speedrate from block_series " +
@@ -33,6 +25,13 @@ public class BlockDaoJDBC implements BlockDao {
         block.setSpeedRate(rs.getDouble("speedrate"));
         return block;
     };
+
+    private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    public BlockDaoJDBC(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @Override
     public Block findByHeight(long height) {
