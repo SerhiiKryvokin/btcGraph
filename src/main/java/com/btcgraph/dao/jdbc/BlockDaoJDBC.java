@@ -26,7 +26,7 @@ public class BlockDaoJDBC implements BlockDao {
             "where height = (select max(height) from block_series)";
     private static final String INSERT_QUERY = "insert into block_series(height, time, speedrate) values(?, ?, ?)";
 
-    RowMapper<Block> blockRowMapper = (rs, rowNum) -> {
+    private static final RowMapper<Block> blockRowMapper = (rs, rowNum) -> {
         Block block = new Block();
         block.setHeight(rs.getLong("height"));
         block.setTime(rs.getLong("time"));
